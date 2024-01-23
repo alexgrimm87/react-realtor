@@ -1,25 +1,26 @@
+import {useState, useEffect} from "react";
 import {Link, useLocation} from "react-router-dom";
-
-const navItems = [
-  {
-    title: "Home",
-    url: "/"
-  },
-  {
-    title: "Offers",
-    url: "/offers"
-  },
-  {
-    title: "Sign In",
-    url: "/sign-in"
-  }
-];
+import {getAuth, onAuthStateChanged} from "firebase/auth";
 
 export default function Header() {
+  const [pageState, setPageState] = useState("Sign in");
   const location = useLocation();
+  const auth = getAuth();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setPageState("Profile");
+      } else {
+        setPageState("Sign in");
+      }
+    });
+  }, [auth]);
 
   function pathMatchRoute(route) {
-    return (route === location.pathname) ? 'text-black border-b-red-500' : 'text-gray-400 border-b-transparent';
+    if (route === location.pathname) {
+      return true;
+    }
   }
 
   return (
@@ -30,11 +31,19 @@ export default function Header() {
         </Link>
         <nav>
           <ul className="flex space-x-10">
-            {navItems.map((item, index) => (
-              <li key={index} className={`text-sm font-semibold border-b-[3px] ${pathMatchRoute(item.url)}`}>
-                <Link to={item.url} className="inline-block py-3">{item.title}</Link>
-              </li>
-            ))}
+            <li className={`cursor-pointer text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
+              pathMatchRoute("/") && "!text-black !border-b-red-500"}`}>
+              <Link to="/" className="inline-block py-3">Home</Link>
+            </li>
+            <li className={`cursor-pointer text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
+              pathMatchRoute("/offers") && "!text-black !border-b-red-500"}`}>
+              <Link to="/offers" className="inline-block py-3">Offers</Link>
+            </li>
+            <li className={`cursor-pointer text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
+              (pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) &&
+              "!text-black !border-b-red-500"}`}>
+              <Link to="/profile" className="inline-block py-3">{pageState}</Link>
+            </li>
           </ul>
         </nav>
       </header>
