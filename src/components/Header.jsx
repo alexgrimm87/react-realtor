@@ -29,8 +29,8 @@ export default function Header() {
         <Link to={"/"} className="py-3">
           <img src="https://static.rdc.moveaws.com/images/logos/rdc-logo-default.svg" alt="logo" className="h-5" />
         </Link>
-        <nav>
-          <ul className="flex space-x-10">
+        <nav className="ml-5">
+          <ul className="flex space-x-3 sm:space-x-10">
             <li className={`cursor-pointer text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
               pathMatchRoute("/") && "!text-black !border-b-red-500"}`}>
               <Link to="/" className="inline-block py-3">Home</Link>

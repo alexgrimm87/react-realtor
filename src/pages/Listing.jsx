@@ -53,7 +53,7 @@ export default function Listing() {
         {listing.imgUrls.map((url, index) => (
           <SwiperSlide key={index}>
             <div
-              className="relative w-full overflow-hidden h-[300px]"
+              className="relative w-full overflow-hidden h-[300px] lg:h-[450px]"
               style={{
                 background: `url(${listing.imgUrls[index]}) center no-repeat`,
                 backgroundSize: "cover",
@@ -149,8 +149,8 @@ export default function Listing() {
         <div className="w-full h-[200px] md:h-[400px] z-10 overflow-x-hidden mt-6 md:mt-0 md:ml-2">
           <MapContainer
             center={[listing.geolocation.lat, listing.geolocation.lng]}
-            zoom={13}
-            scrollWheelZoom={false}
+            zoom={16}
+            scrollWheelZoom={true}
             style={{height: "100%", width: "100%"}}
           >
             <TileLayer
